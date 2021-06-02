@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import dataAccess
-import token
+import constants
 
 bot = commands.Bot(command_prefix=">")
 
@@ -151,4 +151,4 @@ async def tag(ctx, *, args=None):
 
 
 def kickstart():
-    bot.run(token.BOT_TOKEN)
+    bot.run(constants.BOT_TOKEN)

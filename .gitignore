@@ -117,4 +117,4 @@ dmypy.json
 /.idea
 
 # token file
-token.py
+constants.py
