@@ -150,4 +150,4 @@ async def tag(ctx, *, args=None):
 
 
 def kickstart():
-    bot.run("Nzk1NjAzNTc1Nzg2NTY5NzYw.X_Lxkg.xCEyPu--4cCYWk-32rS8dIKC_iI")
+    bot.run("")
