@@ -78,7 +78,7 @@ async def tag(ctx, *, args=None):
             embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
             embed.title = "Tags in this server"
             embed.description = ""
-            embed.set_footer(text="Access these by typing >tag <tagname>")
+            embed.set_footer(text="Access these by typing >tag <tag name>")
             tags = dataAccess.get_tags_by_guild(ctx.guild.id)
             for tag_name in tags:
                 embed.description += "{0}\n".format(tag_name)
