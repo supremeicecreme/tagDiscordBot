@@ -160,6 +160,20 @@ async def quickresponse(ctx, *, args=None):
                             "You can try `>qr add`."
         embed.colour = discord.Colour.red()
         await ctx.send(embed=embed)
+    else:
+        args = args.split(" ")
+        if args[0].lower() == "add":
+            print()
+        elif args[0] == "list":
+            guild_triggers = dataAccess.get_triggers_and_ids_by_guild(ctx.guild.id)
+            embed = discord.Embed()
+            embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
+            embed.title = "Triggers and IDs in this server"
+            embed.description = ""
+            embed.set_footer(text="Add/remove a trigger to the trigger list with the ID specified")
+            for trigger_group in guild_triggers:
+                embed.description += "`{0}`:\t{1}\n".format(trigger_group[0], trigger_group[1])
+            await ctx.send(embed=embed)
 
 
 @bot.event
