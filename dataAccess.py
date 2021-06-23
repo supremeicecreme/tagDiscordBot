@@ -9,7 +9,8 @@ con = sqlite.connect(DATABASE_FILE)
 
 def add_tag(tag_name, guild_id, response_text):
     cur = con.cursor()
-    cur.execute("INSERT INTO tags (TagName, GuildID, ResponseText) VALUES (?, ?, ?)", (tag_name, guild_id, response_text))
+    cur.execute("INSERT INTO tags (TagName, GuildID, ResponseText) VALUES (?, ?, ?)",
+                (tag_name, guild_id, response_text))
     con.commit()
 
 
@@ -66,3 +67,20 @@ def remove_admin_by_guild_and_id(guild_id, admin_id):
     cur = con.cursor()
     cur.execute("DELETE FROM admins WHERE GuildID = '%s' AND AdminID = '%s'" % (guild_id, admin_id))
     con.commit()
+
+
+def get_triggers_by_guild(guild_id):
+    cur = con.cursor()
+    cur.execute("SELECT Triggers FROM quickresponses WHERE GuildID = '%s'" % guild_id)
+    triggers = cur.fetchall()
+    triggers = list(map(lambda x: x[0], triggers))
+    triggers = list(map(lambda x: x.split(", "), triggers))
+    return triggers
+
+
+def get_response_by_guild_and_triggers(guild_id, triggers):
+    cur = con.cursor()
+    cur.execute("SELECT Response FROM quickresponses WHERE GuildID = '%s' AND Triggers = '%s'" %
+                           (guild_id, triggers))
+    response = cur.fetchone()[0]
+    return response
