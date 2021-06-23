@@ -150,5 +150,30 @@ async def tag(ctx, *, args=None):
             await ctx.send(embed=embed)
 
 
+@bot.command(name="quickresponse", aliases=["qr"])
+async def quickresponse(ctx, *, args=None):
+    if not args:
+        embed = discord.Embed()
+        embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
+        embed.title = "Error"
+        embed.description = "You didn't supply a further command.\n" \
+                            "You can try `>qr add`."
+        embed.colour = discord.Colour.red()
+        await ctx.send(embed=embed)
+
+
+@bot.event
+async def on_message(ctx):
+    if not ctx.author.bot:
+        guild_triggers = dataAccess.get_triggers_by_guild(ctx.guild.id)
+        for triggers in guild_triggers:
+            for trigger in triggers:
+                if trigger in ctx.content:
+                    triggers_list = ", ".join(triggers)
+                    response = dataAccess.get_response_by_guild_and_triggers(ctx.guild.id, triggers_list)
+                    await ctx.reply("LeResponse: {0}".format(response))
+    await bot.process_commands(ctx)
+
+
 def kickstart():
     bot.run(constants.BOT_TOKEN)
