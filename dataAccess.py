@@ -78,6 +78,13 @@ def get_triggers_by_guild(guild_id):
     return triggers
 
 
+def get_triggers_and_ids_by_guild(guild_id):
+    cur = con.cursor()
+    cur.execute("SELECT ID, Triggers FROM quickresponses WHERE GuildID = '%s'" % guild_id)
+    triggers = cur.fetchall()
+    return triggers
+
+
 def get_response_by_guild_and_triggers(guild_id, triggers):
     cur = con.cursor()
     cur.execute("SELECT Response FROM quickresponses WHERE GuildID = '%s' AND Triggers = '%s'" %
