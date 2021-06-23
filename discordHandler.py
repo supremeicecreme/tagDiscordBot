@@ -170,8 +170,13 @@ async def on_message(ctx):
             for trigger in triggers:
                 if trigger in ctx.content:
                     triggers_list = ", ".join(triggers)
-                    response = dataAccess.get_response_by_guild_and_triggers(ctx.guild.id, triggers_list)
-                    await ctx.reply("LeResponse: {0}".format(response))
+                    response_text = dataAccess.get_response_by_guild_and_triggers(ctx.guild.id, triggers_list)
+                    embed = discord.Embed()
+                    embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
+                    embed.title = "QuickResponse: {0}".format(trigger)
+                    embed.description = response_text
+                    embed.set_footer(text=ctx.author.nick, icon_url=ctx.author.avatar_url)
+                    await ctx.reply(embed=embed)
     await bot.process_commands(ctx)
 
 
