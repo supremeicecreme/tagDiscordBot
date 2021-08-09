@@ -88,6 +88,6 @@ def get_triggers_and_ids_by_guild(guild_id):
 def get_response_by_guild_and_triggers(guild_id, triggers):
     cur = con.cursor()
     cur.execute("SELECT Response FROM quickresponses WHERE GuildID = '%s' AND Triggers = '%s'" %
-                           (guild_id, triggers))
+                (guild_id, triggers))
     response = cur.fetchone()[0]
     return response
