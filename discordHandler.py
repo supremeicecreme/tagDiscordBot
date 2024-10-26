@@ -167,7 +167,7 @@ async def quickresponse(ctx, *, args=None):
         embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
         embed.title = "Error"
         embed.description = "You didn't supply a further command.\n" \
-                            "You can try `>qr add`."
+                            "You can try `>qr list`."
         embed.colour = discord.Colour.red()
         await ctx.send(embed=embed)
     else:
