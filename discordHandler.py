@@ -14,6 +14,7 @@ async def on_connect():
 @bot.command(name="admin")
 async def admin(ctx, *, args=None):
     if not args:
+        # Needs arguments to actually function
         embed = discord.Embed()
         embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
         embed.title = "Error"
@@ -23,6 +24,7 @@ async def admin(ctx, *, args=None):
         await ctx.send(embed=embed)
     else:
         args = args.split(" ")
+        # Add admin process
         if args[0] == "add":
             admins = dataAccess.get_admins_by_guild(ctx.guild.id)
             if ctx.author.id in admins:
@@ -41,6 +43,7 @@ async def admin(ctx, *, args=None):
                 embed.description = "You are not an admin in this server"
                 embed.colour = discord.Colour.red()
                 await ctx.send(embed=embed)
+        # Remove admin process
         elif args[0] == "remove":
             admins = dataAccess.get_admins_by_guild(ctx.guild.id)
             if ctx.author.id in admins:
@@ -64,6 +67,7 @@ async def admin(ctx, *, args=None):
 @bot.command(name="tag")
 async def tag(ctx, *, args=None):
     if not args:
+        # Needs args to function
         embed = discord.Embed()
         embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
         embed.title = "Error"
@@ -73,6 +77,7 @@ async def tag(ctx, *, args=None):
         await ctx.send(embed=embed)
     else:
         args = args.split(" ")
+        # Show list of tags with context of the current guild
         if args[0].lower() == "list":
             embed = discord.Embed()
             embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
@@ -83,6 +88,7 @@ async def tag(ctx, *, args=None):
             for tag_name in tags:
                 embed.description += "{0}\n".format(tag_name)
             await ctx.send("You found the list function", embed=embed)
+        # Add new tag to current guild as admin
         elif args[0].lower() == "add":
             name = args[1]
             response_text = " ".join(args[2:])
@@ -102,6 +108,7 @@ async def tag(ctx, *, args=None):
                 embed.description = "You are not an admin in this server"
                 embed.colour = discord.Colour.red()
                 await ctx.send(embed=embed)
+        # Remove tag from current guild as admin
         elif args[0] == "remove":
             admins = dataAccess.get_admins_by_guild(ctx.guild.id)
             if ctx.author.id in admins:
@@ -120,6 +127,7 @@ async def tag(ctx, *, args=None):
                 embed.description = "You are not an admin in this server"
                 embed.colour = discord.Colour.red()
                 await ctx.send(embed=embed)
+        # Edit tag in current guild as admin
         elif args[0] == "edit":
             name = args[1]
             response_text = " ".join(args[2:])
@@ -139,6 +147,7 @@ async def tag(ctx, *, args=None):
                 embed.description = "You are not an admin in this server"
                 embed.colour = discord.Colour.red()
                 await ctx.send(embed=embed)
+        # Get tag specified in argument as argument is not a subcommand
         else:
             name = args[0]
             response_text = dataAccess.get_tag_by_name_and_guild(name, str(ctx.guild.id))
@@ -153,6 +162,7 @@ async def tag(ctx, *, args=None):
 @bot.command(name="quickresponse", aliases=["qr"])
 async def quickresponse(ctx, *, args=None):
     if not args:
+        # Needs args to function
         embed = discord.Embed()
         embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
         embed.title = "Error"
@@ -164,6 +174,7 @@ async def quickresponse(ctx, *, args=None):
         args = args.split(" ")
         if args[0].lower() == "add":
             print()
+        # Present list of quickresponse triggers with the context of the current guild, along with their IDs
         elif args[0] == "list":
             guild_triggers = dataAccess.get_triggers_and_ids_by_guild(ctx.guild.id)
             embed = discord.Embed()
@@ -179,6 +190,7 @@ async def quickresponse(ctx, *, args=None):
 @bot.event
 async def on_message(ctx):
     if not ctx.author.bot:
+        # Scan each sent message for triggers if sent by a user
         guild_triggers = dataAccess.get_triggers_by_guild(ctx.guild.id)
         for triggers in guild_triggers:
             for trigger in triggers:
